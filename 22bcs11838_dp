@@ -1,0 +1,117 @@
+// unique paths
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        
+        for (int i = 0; i < m; i++) dp[i][0] = 1;
+        for (int j = 0; j < n; j++) dp[0][j] = 1;
+
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1]; 
+    }
+
+}
+
+
+//climbing stares 
+class Solution {
+    public int climbStairs(int n) {
+        if (n <= 2) return n; // Base cases
+        
+        int first = 1, second = 2;
+        for (int i = 3; i <= n; i++) {
+            int temp = first + second; // Recurrence relation
+            first = second;
+            second = temp;
+        }
+        return second;
+    }
+}
+
+
+// best time to buy and sell stock
+class Solution {
+    public int maxProfit(int[] prices) {
+        int min_price = Integer.MAX_VALUE;
+        int maxProfit = 0 ;
+
+        for(int i  =0 ; i < prices.length ; i++){       //gg
+            if(prices[i] < min_price){                  //etip
+                min_price = prices[i];
+            }
+
+            int profit = prices[i] - min_price ;
+
+            if(profit > maxProfit){
+                maxProfit = profit;
+            }
+        }
+
+        return maxProfit ;
+    }
+}
+
+
+
+// maximum subarray sum 
+class Solution {
+    public int maxSubArray(int[] arr) {
+        int maxSum = Integer.MIN_VALUE;
+        int currentSum = 0 ;
+        for(int i = 0 ; i<arr.length ; i++){
+            currentSum = currentSum+arr[i];
+            maxSum = Math.max(currentSum , maxSum);
+            if(currentSum<0){
+                currentSum =0 ;
+            }
+        }
+    return maxSum ;
+    }
+}
+
+
+// longest common subsequence
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        List<Integer> subsequence = new ArrayList<>();
+
+        for (int num : nums) {
+            int idx = Collections.binarySearch(subsequence, num);
+            if (idx < 0) idx = -(idx + 1); 
+            if (idx < subsequence.size()) {
+                subsequence.set(idx, num); 
+            } else {
+                subsequence.add(num); 
+            }
+        }
+
+        return subsequence.size();
+    }
+}
+
+
+// coin change problem 
+
+import java.util.Arrays;
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int max = amount + 1;
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, max);
+        dp[0] = 0; 
+        
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+
+        return dp[amount] == max ? -1 : dp[amount];
+    }
+
+}
